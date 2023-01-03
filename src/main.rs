@@ -13,7 +13,9 @@ fn main() {
     let card = card.trim().parse().expect("Make sure it is a string");
 
     println!("Card value is: {}", value_of_cards(card));
-    println!("Higher card is: {}", higher_card())
+    println!("Higher card is: {}", higher_card());
+    println!("The value of ace is: {}", value_of_ace());
+    println!("Is it a natural Black Jack?: {}", is_blackjack());
 }
 
 fn value_of_cards(card: String) -> i32 {
@@ -75,8 +77,61 @@ fn higher_card() -> String {
     let second_picked_card = cards.get(&card_two).copied().unwrap_or(0);
 
     match &first_picked_card.cmp(&second_picked_card) {
-        Ordering::Equal => first_card + &second_card,
+        Ordering::Equal => first_card + ", " + &second_card,
         Ordering::Greater => first_card,
         Ordering::Less => second_card,
+    }
+}
+
+fn value_of_ace() -> i32 {
+    println!("Choose Card one: ");
+
+    let mut card_one = String::new();
+    io::stdin()
+        .read_line(&mut card_one)
+        .expect("It's supposed to be a string.");
+    let card_one: String = card_one.trim().parse().expect("Make sure it's a String.");
+
+    println!("Choose card two: ");
+
+    let mut card_two = String::new();
+    io::stdin()
+        .read_line(&mut card_two)
+        .expect("It's supposed to be a string");
+    let card_two: String = card_two.trim().parse().expect("Make sure it's a String.");
+
+    let ace = 11;
+
+    if (value_of_cards(card_one) + value_of_cards(card_two) + ace) > 21 {
+        let ace = 1;
+        return ace;
+    } else {
+        return ace;
+    }
+}
+
+fn is_blackjack() -> bool {
+    println!("Choose Card one: ");
+
+    let mut card_one = String::new();
+    io::stdin()
+        .read_line(&mut card_one)
+        .expect("It's supposed to be a string.");
+    let card_one: String = card_one.trim().parse().expect("Make sure it's a String.");
+
+    println!("Choose card two: ");
+
+    let mut card_two = String::new();
+    io::stdin()
+        .read_line(&mut card_two)
+        .expect("It's supposed to be a string");
+    let card_two: String = card_two.trim().parse().expect("Make sure it's a String.");
+
+    if (card_one == "A" || card_two == "A")
+        & (value_of_cards(card_one) == 10 || value_of_cards(card_two) == 10)
+    {
+        return true;
+    } else {
+        return false;
     }
 }
